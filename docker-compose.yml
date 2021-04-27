@@ -1,0 +1,65 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: ./${DOCKER_BACKEND_PATH}
+    container_name: backend
+    command: "sh ./docker_entrypoint.sh"
+    volumes:
+      - ./project/backend:/code:z
+    ports:
+      - ${BACKEND_PORT}:8082
+    env_file:
+      - .env
+    networks:
+      - internal
+
+  redis:
+    build: ./${DOCKER_REDIS_PATH}
+    container_name: redis_server
+    hostname: ${REDIS_HOST}
+    volumes:
+      - ./${DOCKER_REDIS_PATH}/conf:/data:z
+      - ./${DOCKER_REDIS_PATH}/data:/backup:z
+      - ./logs/redis:/var/logs/redis:z
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    env_file:
+      - .env
+    networks:
+      - internal
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer
+    ports:
+      - 9191:9000
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - /Docker/portainer/data:/data:z
+    networks:
+      - internal
+
+  frontend:
+    build:
+      context: ./${DOCKER_FRONTEND_PATH}
+    container_name: frontend
+    command: "sh ./docker_entrypoint.sh"
+    env_file:
+      - .env
+    volumes:
+      - ./project/frontend:/usr/app/:z
+    ports:
+      - ${FRONTEND_PORT}:8080
+    depends_on:
+      - redis
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.221.0/28
