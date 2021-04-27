@@ -5,7 +5,7 @@ from zipfile import ZipFile, BadZipFile, LargeZipFile
 
 
 class ZipForceInterface(object):
-    def _passwords_list(self, passwords: str) -> list[Union[str, int]]:
+    def _passwords_list(self, passwords: str) -> []:
         """
             Convert string with passwords to dictionary
         :param passwords: string
@@ -43,7 +43,7 @@ class ZipForce(ZipForceInterface):
         self.filepath = filepath
         self.passwords = passwords
 
-    def _passwords_list(self, passwords: str) -> list[Union[str, int]]:
+    def _passwords_list(self, passwords: str) -> []:
         if 0 == len(passwords):
             raise ValueError('Empty passwords list')
         if not isinstance(passwords, str):

@@ -1,5 +1,6 @@
-FROM python:3
-
+FROM python:3.7-alpine3.12
+RUN apk update
+RUN apk add --update --no-cache p7zip
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH /code
 
