@@ -1,0 +1,8 @@
+{
+  "debug": true,
+  "loglevel": 10,
+  "port": 8082,
+  "strict_validation": true,
+  "swagger_ui": true,
+  "validate_responses": true
+}

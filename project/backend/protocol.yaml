@@ -1,0 +1,52 @@
+swagger: "2.0"
+info:
+  description: "Bruteforce for ZIP archives"
+  version: "0.1.0"
+  title: "ZIPCheck"
+schemes:
+  - http
+  - https
+paths:
+  '/ping':
+    get:
+      operationId: app.ping
+      description: ping - pong
+      responses:
+        200:
+          description: Ok
+        500:
+          description: Something wen wrong
+
+  '/result':
+    get:
+      operationId: app.result
+      description: Check result
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Bad request
+        403:
+          description: No access
+
+  '/upload':
+    post:
+      operationId: app.upload_zip
+      summary: Uploads a file.
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: file
+          type: file
+          x-mimetype: application/zip
+          required: true
+          description: The file to upload.
+
+      responses:
+        200:
+          description: File was uploaded
+        500:
+          description: Something went wrong
+        401:
+          description: Bad request
