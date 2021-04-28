@@ -11,18 +11,18 @@ SETTINGS = json.loads(open("settings.json").read())
 
 def ping():
     """Send alive status."""
-    return '', 200
+    return {'result': 'pong'}, 200
 
 
 def upload_zip(file):
-    return '', 200
+    return {'result': 'SomeGuid'}, 200
 
 
 def result():
     filepath = f'{os.path.dirname(__file__)}/tmp/test.zip'
     force = ZipForce(filepath, "asd\n1112\n123\nsss")
     force = force.parse()
-    return force, 200
+    return {'result': force, 'isFound': len(force) > 0}, 200
 
 
 APP = connexion.App(__name__)

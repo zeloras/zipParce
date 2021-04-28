@@ -14,8 +14,10 @@ paths:
       responses:
         200:
           description: Ok
+          schema:
+            $ref: '#/definitions/Pong'
         500:
-          description: Something wen wrong
+          description: Something went wrong
 
   '/result':
     get:
@@ -24,6 +26,8 @@ paths:
       responses:
         200:
           description: Ok
+          schema:
+            $ref: '#/definitions/PasswordResult'
         400:
           description: Bad request
         403:
@@ -46,7 +50,32 @@ paths:
       responses:
         200:
           description: File was uploaded
+          schema:
+            $ref: '#/definitions/FileId'
         500:
           description: Something went wrong
         401:
           description: Bad request
+
+definitions:
+  Pong:
+    type: object
+    properties:
+      result:
+        type: string
+        description: Pong answer
+  PasswordResult:
+    type: object
+    properties:
+      result:
+        type: string
+        description: Possible password
+      isFound:
+        type: boolean
+        description: is password found
+  FileId:
+    type: object
+    properties:
+      result:
+        type: string
+        description: Uploaded file GUID
